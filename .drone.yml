@@ -16,4 +16,4 @@ deploy:
       - scp -o StrictHostKeyChecking=no -P 22 -r . deploy@178.62.49.97:app-build/
       - ssh deploy@178.62.49.97 app-build/tools/deploy
     when:
-      branch: master
+      branch: change_to_master_to_deploy
