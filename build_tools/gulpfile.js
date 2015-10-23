@@ -82,6 +82,7 @@ gulp.task('copy-pygments-css', function() {
 gulp.task('compile-compass', function() {
     return gulp.src(path.sass().append('*.scss').s())
         .pipe(compass({
+            bundle_exec: true,
             css: paths.join(__dirname, path.css().s()),
             sass: paths.join(__dirname, path.sass().s()),
             image: paths.join(__dirname, path.images().s()),
