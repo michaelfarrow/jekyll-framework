@@ -3,6 +3,5 @@ jekyll:
     file: docker-compose-common.yml
     service: jekyll
   restart: always
-  command: "bundle exec jekyll serve -H 0.0.0.0 --no-watch"
   environment:
     JEKYLL_ENV: production

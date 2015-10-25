@@ -21,12 +21,44 @@ var gulp       = require('gulp'),
     del        = require('del'),
     favicons   = require('gulp-favicons'),
     paths      = require('path');
-    gutil      = require('gulp-util');
+    gutil      = require('gulp-util'),
+    // exec       = require('gulp-exec');
+    exec       = require('child_process').exec,
+    runSync    = require('run-sequence');
 
 
 function handleError(err) {
     this.emit('end');
 }
+
+function handleErrorWithMessage(err) {
+    console.log(err);
+    this.emit('end');
+}
+
+
+gulp.task('copy-gemfile-to-build-tools', function () {
+    return gulp.src(path.root().append('Gemfile').s())
+        .pipe(gulp.dest(path.buildtools().s()));
+});
+
+gulp.task('build-jekyll', ['copy-gemfile-to-build-tools'], function (cb) {
+    exec('bundle exec jekyll build --config "/src/_config.yml"', function(err) {
+        if (err){
+            return cb(err);
+        }
+        cb();
+    });
+});
+
+gulp.task('jekyll', ['build-jekyll'], function () {
+    return del([
+            path.buildtools().append('Gemfile').s(),
+            path.buildtools().append('Gemfile.lock').s(),
+        ], {
+            force: true
+        });
+});
 
 gulp.task('del-generated-favicon-html', function () {
     return del([
@@ -118,7 +150,7 @@ gulp.task('lint-js', function() {
 });
 
 
-gulp.task('build', [
+gulp.task('pre-build', [
     'create-favicons',
     'copy-bootstrap-fonts',
     'copy-pygments-css',
@@ -127,6 +159,10 @@ gulp.task('build', [
     'lint-js',
 ]);
 
+gulp.task('build', function(){
+    runSync('pre-build', 'jekyll');
+});
+
 gulp.task('default', [
     'build',
 ]);
@@ -134,10 +170,17 @@ gulp.task('default', [
 gulp.task('watch', function() {
     gulp.watch(path.sass().append('*.scss').s(), ['compile-compass']);
     gulp.watch([
-        path.js().append('/**/*.js').s(),
+        path.js().append('**/*.js').s(),
         '!' + path.js().vendor().append('*.js').s()
     ], ['lint-js']);
     gulp.watch(path.js().append('modernizr/*.js').s(), ['custom-modernizr']);
+    gulp.watch([
+        path.root().append('_config.yml').s(),
+        path.base().append('**/*.md').s(),
+        path.base().append('**/*.html').s(),
+        path.js().append('**/*.js').s(),
+        path.css().append('**/*.css').s()
+    ], ['jekyll']);
 });
 
 
@@ -146,8 +189,20 @@ function path(p, f){
     this.path = p + path.format(f);
 };
 
+path.root = function() {
+    return new path('..');
+};
+
+path.buildtools = function() {
+    return path.root().append('build_tools');
+};
+
+path.dist = function() {
+    return path.root().append('dist');
+};
+
 path.base = function() {
-    return new path('../_site');
+    return path.root().append('_site');
 };
 
 path.layouts = function() {

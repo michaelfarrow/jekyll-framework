@@ -38,6 +38,8 @@ dwsync.xml
 
 /dist/
 /bundle
+/build_tools/Gemfile
+/build_tools/Gemfile.lock
 /_site/_assets/img/favicons/
 /_site/_includes/favicons.html
 /_site/_assets/js/vendor/*

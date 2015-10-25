@@ -17,6 +17,8 @@
     "gulp-modulizr": "0.0.2",
     "gulp-rename": "1.2.2",
     "gulp-favicons": "1.0.9",
-    "gulp-util": "3.0.6"
+    "gulp-util": "3.0.6",
+    "gulp-exec": "2.1.2",
+    "run-sequence": "1.1.4"
   }
 }

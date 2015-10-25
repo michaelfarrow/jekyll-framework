@@ -1,6 +1,6 @@
 title: Jekyll Framework
-source: ./_site
-destination: ./dist
+source: /src/_site
+destination: /src/dist
 markdown: redcarpet
 redcarpet:
   extensions:
@@ -22,3 +22,4 @@ include:
 exclude:
   - _assets/scss
 ga_tracking_id: UA-XXXXX-X
+cdn_url: 'http://cdn.com'

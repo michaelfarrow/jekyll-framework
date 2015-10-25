@@ -37,8 +37,6 @@ tools/bundler install --quiet
 heading "Gulping"
 tools/gulp
 
-tools/jekyll build
-
 if [[ "$build_env" != "local" ]]; then
 	heading "Unlinking npm tools"
 	tools/build_unlink

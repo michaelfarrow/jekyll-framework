@@ -2,7 +2,8 @@ jekyll:
   image: weyforth/jekyll:ruby-2.1
   ports:
     - "80:4000"
-  command: "bundle exec jekyll serve -H 0.0.0.0 --force_polling"
+  environment:
+  command: "bundle exec jekyll serve -H 0.0.0.0 --no-watch"
   volumes:
     - "./:/src"
     - "./bundle:/bundle"

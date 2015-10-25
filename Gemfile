@@ -6,4 +6,5 @@ gem 'rouge', '1.8.0'
 
 group :jekyll_plugins do
   gem 'jekyll-minibundle', '1.5.1'
+  gem 'guard-jekyll-plus', '2.0.2'
 end
